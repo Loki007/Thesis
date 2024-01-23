@@ -1,0 +1,159 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                     Heriot-Watt University Thesis Template  
+%   Created by : Majed Al Saeed
+%   Date:        June 2012
+%   Department of Computer Science
+%   Heriot-Watt University
+%
+%   Updated by: Alexandre Coates
+%   Date: February 2021  
+%   Institute of Photonics and Quantum Sciences
+%   Heriot-Watt University
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,12pt]{report}
+
+%==============================title page info=================================
+
+% Name of the author
+\newcommand{\auth}{Your Name}   
+% Title of Thesis                
+\newcommand{\thesistitle}{A Really Awesome University Guideline-Compliant Thesis}
+% Degree  
+\newcommand{\degree}{Doctor of Philosophy} 
+% Date submitted
+\newcommand{\supdate}{February 2021}            
+
+%===================================packages===================================
+\usepackage[top=20mm, bottom=20mm, left=40mm, right=20mm]{geometry}
+\usepackage{setspace}
+\usepackage{fancyhdr} %fancy headers
+\usepackage{acro} %acronyms
+\usepackage{graphicx} %graphics
+%\usepackage{subfigure}%
+%\usepackage{subcaption} %subcaptions for subfigures
+\usepackage{xspace}
+\usepackage{listings}
+\usepackage{pdfpages}
+\usepackage{alltt}
+\usepackage{float} % to use [H] 
+\usepackage[notindex, nottoc, notlof, notlot]{tocbibind} %table of content options
+%\usepackage{lscape}    % if you want to use land scape in one paper 
+                       %...\begin{landscape}\end{landscape}
+\usepackage{amsmath} %mathematical environments for equations etc
+\usepackage{amssymb} %mathematical symbols
+\usepackage{amsthm} %for defining mathematical theorems
+\usepackage{siunitx} %mainly for producing the degrees symbol using \ang{}, but contains SI units obviously
+\usepackage{braket} %for BraKet notation
+\usepackage{nicefrac} %a nice fraction, side by side rather than top to bottom
+\usepackage{hyperref} %in-document links between references and sections/figures/equations
+\usepackage{wrapfig} %figure placement
+\usepackage{cleveref} %more internal referencing behaviour, lets you use \cref instead of \ref, MUST BE AFTER HYPERREF
+%\usepackage[utf8]{inputenc} %related to encoding %not needed as of 2018/9 I think
+\usepackage{parskip} % OPTIONAL - removes paragraph indentation
+\usepackage[colorinlistoftodos]{todonotes} % to do notes, might help you keep track of things
+\reversemarginpar
+\setlength{\marginparwidth}{35mm}
+%\reversemarginpar %force todonotes into the left margin, as it defaults to the right hand margin
+
+%%% Citations %%%
+\usepackage[backend=biber,style=numeric-comp, sorting=none]{biblatex} %using biblatex for citations, style is set to numeric-comp by default, and sorting is set to none so the bibliography prints references in the order of their appearance. See more details in the main document
+
+\addbibresource{Bibliography.bib} %add a source for references here
+%if you want to load from multiple bib files then do \addbibresource{file1,file2,file3} - no spaces, and you may need the .bib or whatever you file extension is
+
+
+%%% other things %%%
+\graphicspath{{Figures/}{../Figures/}} %sets path for figures for two levels of nesting the fig folder
+
+\setcounter{tocdepth}{3}  %set how many subsections your table of contents will show down to
+\setcounter{secnumdepth}{3} %set how many levels deep your section numbering will go, 3 means going to subsubsection
+\date{\today}
+
+%=========================== define acronyms ===============
+%list the command to type, the short version, and the long version at a minimum
+%for more advanced features like grouping, tagging or setting capitalisation, see the acro documentation on CTAN
+\DeclareAcronym{lol}{short = lol, long = laughing out loud}
+\DeclareAcronym{www}{short = WWW , long  = World-Wide Web}
+\DeclareAcronym{wys}{short=WYSIWYG, long = What you see is what you get}
+\DeclareAcronym{woodchuck}{short = HMWWAWCIAWCCW, long= How much wood would a woodchuck chuck if a woodchuck could chuck wood?}
+\DeclareAcronym{opt}{short = Optional, long = Including a list of used terms/acronyms is totally optional}
+\DeclareAcronym{jau}{short = JAU, long = Join a Union}
+%\input {Acronyms} %or you can list your acronyms in a separate file, but it is more work to sort out with subfiles
+
+
+\usepackage{subfiles} %this need to be the LAST package you include
+%===================================Document===================================
+\begin{document}
+\doublespacing
+
+%==================================Title page==================================
+\pagestyle{empty}
+\begin{center}
+\begin{spacing}{2}
+{\large{\ \\  \vspace{1.5cm}\textbf{\MakeUppercase{\thesistitle}}}}\\
+\end{spacing}
+\vfill
+{\Large\textit{by}}\\\vspace{0.2cm}
+{\Large\upshape{\auth}}\\\vspace{1.0cm}
+\includegraphics[width=5cm]{HW_shield}\\
+\vspace{1cm}
+{\large Submitted for the degree of \\ \degree}\\
+\vspace{1cm}
+{\large\textsc{Institute of Photonics and Quantum Sciences}\\
+\textsc{School of Engineering and Physical Sciences}\\
+\textsc{Heriot-Watt University}}\vfill
+{\large{\supdate}}
+\end{center}
+{\small The copyright in this thesis is owned by the author. Any quotation from the report or use of any of the information contained in it must acknowledge this report as the source of the quotation or information.}
+%===================================Abstract=================================
+\clearpage
+\input{Abstract}
+
+%==================================frontmatter================================
+\clearpage
+\pagestyle{plain}
+\clearpage\pagenumbering{roman}
+\input{Acknowledgements}
+\tableofcontents
+\listoftables %optional
+\listoffigures %optional
+\printacronyms %OPTIONAL prints used acronyms wherever you put this
+%===================================headings=================================
+\clearpage
+\pagestyle{fancy}
+\pagenumbering{arabic}
+\fancyhead{}
+\lhead{\slshape \leftmark} 
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.0pt}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter:\ #1}{}}
+%===================================Chapters================================
+
+\subfile{Chapters/Introduction}
+\subfile{Chapters/Background}
+\subfile{Chapters/Design}
+\subfile{Chapters/Conclusion}
+
+%===================================Appendix================================
+\appendix
+\renewcommand{\chaptermark}[1]{\markboth{Appendix \thechapter.\ #1}{}}
+\subfile{Chapters/Appendix1}
+
+%=================================Bibliography================================
+%If you just need super simple references you can remove all the biblatex stuff and have this for a lump of references at the end, but it's less flexible than biblatex. Remember, you can just remove all of the refsections and biblatex will work with just a \printbibliography command wherever you'd like. 
+
+%\bibliographystyle{abbrv}
+%\bibliography{Bibliography.bib}
+
+%print bibliography for whole thesis (not obligatory, you can do per-chapter bibliographies if you want)
+\printbibheading %print the heading that say BIBLIOGRAPHY
+\printbibliography[section=1,heading=subbibliography, title= Introduction] %print references for the 1st refsection, custom title for references
+\printbibliography[section=2,heading=subbibliography, title = some random custom title] %print references for the 2nd refsection, 
+%\printbibliography % print ALL references
+
+%\printbiblist
+%the sorting order of your bibliography is determined by the arguments in the square brackets when importing biblatex, can sort by year or name if preferred
+\end{document}
+
+

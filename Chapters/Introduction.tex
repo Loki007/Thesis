@@ -1,0 +1,193 @@
+\documentclass[../HWThesis.tex]{subfiles} %Copy this at the top of each subfile, then you can render the .tex file on its own
+\begin{document}
+\begin{refsection}
+\chapter{Introduction}
+\label{ch:introduction}
+
+\section{Thesis Structure Details}
+\label{sec: thesis details}
+For the Degree of Doctor of Philosophy the thesis shall not normally exceed 80,000 words and shall not normally exceed 400 pages in length including Appendices, with a limit of no more than 100,000 words. In exceptional circumstances, the Research Degrees Committee will consider requests for thesis exceeding 100,000 on a case by case basis. The number of pages of a thesis exceeding 80,000 words in length shall be increased on a pro rata basis in accordance with the word limit.  For the Degree of Doctor of Philosophy by Published Research, a critical review of the published research which shall be in the range of 10,000 to 25,000 words must be submitted.
+
+Chapter 1 of the thesis must be an Introduction, so headed, defining the relation of the thesis to other work in the same field and referring appropriately to any findings, propositions or new discoveries contained in the thesis and to any important points about sources or treatment.
+
+Thesis guidelines can be found at: \\ \url{https://www.hw.ac.uk/uk/students/doc/guidelinesonsubmissionandformatofthesis.pdf}
+
+Related documents and forms at: \url{https://www.hw.ac.uk/uk/students/studies/examinations/thesis.htm}
+
+\subsection{Layout details}
+\label{sec: layout}
+In the main tex document \texttt{HWThesis.tex} the margins are set, and the left margin is larger than the right one. This is because the PhD thesis you submit will be printed one-side rather than double sided. So in any two spread the printed page will be the one on the right hand side. Therefore, the left side of every page will connect to the thesis binding, so you need an extra large margin to make sure none of your images or text are hidden by the binding.
+
+\subsubsection{Paragraph indentation} I have turned off the LaTeX default of having the first line of each paragraph be indented. If you want to turn that back on, simply go to the preamble in \texttt{HWThesis.tex} and comment out the line \texttt{\textbackslash usepackage\{parskip\}}.
+
+\section{Template Structure}
+This LaTeX template is for you to have the format generally laid out, and an example structure. The main file is \texttt{HWThesis.tex}, that defines the title page, layout, packages, and a few other pieces of information. The file tree is set up for a long project, with a few folders. A \texttt{Figures} folder for all your figures, then a \texttt{Chapters} folder to keep the tex files for each chapter. This is just so you don't accidentally make one massive tex file where it gets really really difficult to correct LaTeX mistakes for example. You can change this structure if you'd like, for example with a different figures folder for every chapter. 
+
+I have also tried to make this structure modular. For large Theses, if they have lots of images, it can take a long time for them to render, but you are likely only wanting to update one chapter or appendix at a time. So I have introduced the \texttt{subfiles} package. 
+
+\subsection{\texttt{subfiles}}
+The subfiles package allows you to render individual subdocuments within a larger document, keeping all the functionality from the main document intact. You can see how I have done this in \texttt{HWThesis.tex} where the introduction is added with the \texttt{subfile} command, rather than \texttt{input} or \texttt{include} command. Then each chapter just begins with one line of text\texttt{ \\documentclass[../HWThesis.tex]\{subfiles\}}, and has \\ \texttt{begin\{document\}, end\{document\}} around the rest of the chapter. See further down for details on generating per-chapter references.
+
+\subsubsection{What is the advantage?}
+With this, you can work on each chapter in isolation, and not worry about massively long typesetting times, or breaking the rest of your LaTeX document. The main thing that might not work is the citation numbering. This is done at the end of a document, so won't show the numbers correctly unless you render the whole \texttt{HWThesis.tex}, unless you do some workarounds. 
+
+\section{What other features are in this template?}
+
+\subsection{citations with \texttt{biblatex}}
+
+So you can use \texttt{biblatex} to define however you would like your references styled. You will have your bibliography in whatever your software of choice is, and you can use that (for example Zotero or Mendeley) to connect to an Overleaf document, or make BibItems / a  big .bib file. This has to be loaded with the \texttt{\textbackslash addbibresource\{...\}} command as I have done in the header. You can do this with multiple files if for example you have different bibliographies per paper. 
+
+Note, for the per-chapter features we are talking about, we need \texttt{backend = biber} - so if you are generating things offline, you will need to run biber, instead of bibtex to generate the correct behaviour. 
+
+I have also set some default arguments when loading \texttt{biblatex}. Lets talk about your citation options. For more detail, please search for the biblatex documentation.
+
+\subsubsection{citation sorting}
+I have set the default sorting=none. This means your bibliography will show things in the order you reference them. If you want them sorted by name, then year, then title, set sorting=nyt. For title, then name, then year, sorting=tny. There are lots of these options listed in the documentation, including sorting citations bby type of document etc. 
+
+\subsubsection{formatting citations}
+\label{sec: format-citations }
+
+I have set the default style for the citation and the bibliography to numeric-comp, meaning compressed numerical style, similar to Vancouver style citations \cite{gum2}. 
+This means where possible citations will be numbered. The compressed part means that if you cite a range of numbers with a few of them in a row, so instead of showing [1][2][3][5] it will show ranges as hyphenated like [1-3, 5] for example. You may change this to any style you like, or ideally what is used in your field. Let's see a citation range: \cite{gum2, Maier10, gum}
+
+\subsubsection{Doing bibliographies per chapter, vs for the whole thesis}
+
+For the default whole-thesis bibliography, you just need a  \texttt{\textbackslash printbibliography} command at the end of your thesis, before the document ends, I have this set up already for you by default. 
+
+But if you have a lot of references and a lot of chapters, you may prefer separate bibliographies per chapter. \texttt{biblatex} makes doing sub-bibliographies very easy. You just need to set up a \texttt{begin refsection and end refsection} at the top and bottom of each chapter, and then have a \texttt{\textbackslash printbibliography[heading=subbibliography]} command inside of it. You can do one of these per chapter (\textit{so one per-subfile}). Lets do that now for this introduction chapter. Things are already set up so we can just print it right here (though normally we'd do that at the bottom of the chapter). You'll see that it doesn't include any citations from the next chapter.  \cite{gum2, Talia01} 
+
+You can look through the biblatex documentation for how to split the bibliography by document type, keyword and all other sorts of things. But this minimal set up should be enough for you to copy paste and achieve something functional quite quickly.
+
+You can also still print the per-chapter references outside of the refsections, there is an example at the end of this thesis. 
+You just do \\ \texttt{\textbackslash printbibliography\{section=1,heading=subbibliography\}} where 1 means \textit{the first refsection}. Note, the default title is \textit{References}, to set a custom title, for example the name of the chapter you can set this manually by adding \texttt{title = your custom title}
+
+\subsubsection{Sub-bibliography numbering}
+
+The default for sub-bibliographies is that each \texttt{refsection} starts a new index. So each new bibliography starts from [1] again. 
+If you want separate sub-bibliographies, but with the numbers to continue between chapters, use \texttt{refsegment} instead of \texttt{refsection}. And similarly for printing bibliographies, swap section for segment e.g. \texttt{\textbackslash printbibliography\{segment=1,heading=subbibliography\}}
+
+\subsection{Linking to figures, equations and sections with \texttt{hyperref}}
+
+We can also reference prior sections, for example you might want to see \cref{sec: thesis details} for specifics on how to set up a thesis. These links should be clickable in the pdf thanks to the \texttt{hyperref} package. These links \textbf{will not show up when printing, they are digital only}. If you want to make them printable, you can do that with the help of the \texttt{hyperref} documentation. To link to anything, it needs a label. So label anything you want to reference with with \texttt{\textbackslash \label{...}} and you will be good to go.  You can also look up its documentation to change all kinds of behaviours, for example the default link looks like a box around numbers, you can also set it to be like a webpage where links are different colours, but have no boxes around them. Don't go too wild. 
+
+\subsection{better internal references with \texttt{cleveref}}
+\label{sec: cleveref}
+
+You will notice that when you use a \texttt{ref} command to point to somethign you have labelled (a subsection, figure, equation etc) - you only get the number. It might be more convenient to have it automatically say \textit{eqn 2.2} rather than just \textit{2.2}, forcing you to type eqn, fig, sec every time. That's what this package is here to help. This lets you type \texttt{\textbackslash cref} instead of \texttt{\textbackslash ref}, and it will automatically write eq./fig./sec. as appropriate. To capitalise (if at the beginning of a sentence) use Cref instead of cref. 
+
+If you want the full label (figure/equation/section instead of fig./eq./sec. ) then you can add \texttt{[noabbrev]} before the curly brackets when loading cleveref. 
+
+So lets use \texttt{\textbackslash ref} to reference a section (\ref{sec: cleveref}), a figure (\ref{fig: black shield}), a table (\ref{tab: example table}), and an equation (\ref{eqn: example equation})
+
+Now the same with cleveref \texttt{\textbackslash cref}: a section (\cref{sec: cleveref}), a figure (\cref{fig: black shield}), a table (\cref{tab: example table}), and an equation (\cref{eqn: example equation})
+
+\subsection{Colors}
+You may want to even change the color of text when working on it, you can do that like this \textcolor{red}{there are some colors that are already named in \texttt{graphicx}} but you can also define your own.  \definecolor{light-blue}{rgb}{0.8,0.85,1} \textcolor{light-blue}{So now I have a specific light blue color, very nice.} You may want to have colours to highlight sections you are working on, but text needs to be black when you submit!
+
+\subsection{Acronyms, via \texttt{acro}}
+
+This thesis comes set up with acronyms so you can define terms you use repeatedly and make sure they're formatted correctly every time. A simple acronym is  \ac{wys}, as this is the first time it is used in the thesis, we get the long version, with the short version following it in brackets. Now it has been used once, we can now simply write the acronym command \texttt{ac\{wys\}} again and we will just get the shortened version. For example:  \textit{unlike \LaTeX, Microsoft Word is a \ac{wys} typesetting program. }
+
+These acronyms have to be defined in the preamble of \texttt{HWThesis.tex} . You will want to use these when you just don't want to have to type out a term over and over again, or you can invoke long and hard to spell terms like bacterial names, specific pieces of hardware used in experiments, or even lengthy phrases. This document is set up to include a page that lists used terms. \acl{opt}. 
+
+Of course you can choose whether you want the long or short version of an acronym at any point, here is a quick summary of options: 
+\begin{table}[H]
+\begin{tabular}{lll}
+first &  \texttt{ac\{lol\}} & \ac{lol} \\
+second & \texttt{ac\{lol\}}& \ac{lol} \\
+long & \texttt{acl\{lol\}}  & \acl{lol} \\
+short & \texttt{acs\{lol\}} & \acs{lol} \\
+full & \texttt{acf\{lol\}}  & \acf{lol}
+\end{tabular}
+\caption{This is also an example of a table}
+\label{tab: example table}
+\end{table}
+
+This is a very versatile package that saves time and lets you say the important things, whether that is  \ac{jau} or \ac{woodchuck}
+
+\section{Symbols}
+Top tip, if you are struggling to remember the name of a \LaTeX symbol you need, maybe play around with detexify, where you can draw a symbol, and it will try and find a matching one in \LaTeX: \url{https://detexify.kirelabs.org/classify.html}. 
+
+\subsection{Maths}
+As a physicist I have included a few packages for maths, these should be standard enough. Specifically I have added \texttt{amsmath} for maths environments and better equations, \texttt{amssymb} for extended mathematical symbols, and \texttt{amsthm} for better maths theorems. 
+
+\begin{equation}
+e =  \sum\limits_{n = 0}^{\infty} \frac{1}{n!} = 1 + \frac{1}{1} + \frac{1}{1\cdot 2} + \frac{1}{1\cdot 2\cdot 3} + \cdots
+\label{eqn: example equation}
+\end{equation}
+
+An important note here - Thesis guidelines say every equation that appears on its own line, needs an associated number, even if you don't refer to it. So $2 = \sum_i^\infty 2^{-i}$ would not need a number, but the above equation \ref{eqn: example equation} does. I also added in a different fraction option with the \texttt{nicefrac} package. So you can make your fractions like this $\nicefrac{1}{2}$ as compared to the standard $\frac{1}{2}$, up to you!
+
+\subsection{SI Units via \texttt{siunitx}}
+
+The SI unit package is also include, one of the more common usages is to have a proper command for the degree symbol, for example 10 degrees becomes \(\ang{10}\). However the package also includes a lot of functions for using units like grams, candela, moles, electronvolts etc with numbers, so that the unit labels look the same whether in text mode or math mode. If you write a lot of units, maybe look into the documentation. 
+
+\textbf{That is everything, the following chapters show some example plots, tables, and then an appendix with details on how an appendix should be set up.}
+
+\section{Keeping Track}
+
+\listoftodos
+
+\subsection{Todo notes}
+
+If while writing you want some very visible coloured boxes to tell you what you have To Do, then use the \todo[color=yellow]{this is a yellow todo note in the margin}todonotes package. 
+
+This lets you create todo notes, and empty figures. You can even make a list of your todo notes to see what you have left to do. 
+
+Here are some examples. 
+\todo[inline]{hello, this is a todo note that is inline}
+
+Now lets do a placeholder figure in \cref{fig: missing figure}
+\begin{figure}[H]
+\begin{center}
+\missingfigure[figwidth = .5\linewidth]{one day a nice figure could go here}
+\caption{captions still work}
+\label{fig: missing figure}%labels work too
+\end{center}
+\end{figure}
+
+And of course, above this subsection we generated a list of todos.
+
+\subsection{Subfigures and Subcaptions}
+I have both of these in the header for the main \texttt{HWThesis.tex} but I have not bothered to test them, play around at your own risk, I don't really like either package honestly. 
+
+\section{Logos}
+Last last thing, I have included a new university crest for the title page, but you may want an alternative. Here I will quickly show you the ones I have included. You can then choose exactly which one you would like on your title page! 
+
+\begin{figure}[H]
+\begin{center}
+
+\includegraphics[width=.5\linewidth]{HW_shield.pdf}	
+\caption{The default HW\_shield, that I cropped from the full logo svg}%make sure to put a \ before any underscores in captions, otherwise it can get nasty
+\label{fig:shield}
+\end{center}
+\end{figure} 
+
+\begin{figure}[H]
+ \begin{center}
+ \includegraphics [width=0.5\linewidth]{HW_shield_black.pdf}
+ \caption{The black HW\_shield.pdf, that I also cropped from the full logo svg}
+ \label{fig: black shield}
+\end{center}
+\end{figure} 
+
+\begin{figure}[H]
+ \begin{center}
+ \includegraphics [width=0.5\linewidth]{HW_logo}
+ \caption{The JPEG HW\_logo from the intranet}
+ \label{fig: hw logo}
+\end{center}
+\end{figure} 
+
+\begin{figure}[H]
+ \begin{center}
+ \includegraphics [width=0.5\linewidth]{HW_logo_black}
+\caption{Lastly... the black JPEG HW\_logo from the intranet.}
+ \label{fig: hw logo black}
+\end{center}
+\end{figure} 
+
+%\printbibtitle
+\printbibliography
+\end{refsection}
+\end{document}
